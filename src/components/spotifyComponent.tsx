@@ -17,6 +17,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   const CLIENT_SECRET = 'be6740f27597409287902cdaa775434b';
   const APP_DEFAULT_URL = 'http://localhost:3000/';
   const REDIRECT_URI = 'http://localhost:3000/callback';
+  let authorization_code:any = 'code';
 
   const initiateSpotifyAuthorization = () => {
     // Replace these values with your actual client ID, redirect URI, and scope
@@ -30,6 +31,9 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   };
   if(window.location.href === APP_DEFAULT_URL){
     initiateSpotifyAuthorization();
+  } else {
+    let queryParameters = new URLSearchParams(window.location.search);
+    authorization_code = queryParameters.get("code");
   }
 
   useEffect(() => {
@@ -44,7 +48,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       },
       body: new URLSearchParams({
         'grant_type': 'authorization_code',
-        'code': 'null',
+        'code': authorization_code,
         'redirect_uri': 'http://localhost:3000/callback',
       }),
     });
@@ -69,18 +73,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
     <div>
       <h1>Hello, {name}!</h1>
       <h1>Display your Spotify profile data</h1>
-
-      <section id="profile">
-      <h2>Logged in as <span id="displayName"></span></h2>
-      <span id="avatar"></span>
-      <ul>
-          <li>User ID: <span id="id"></span></li>
-          <li>Email: <span id="email"></span></li>
-          <li>Spotify URI: <a id="uri" href="#"></a></li>
-          <li>Link: <a id="url" href="#"></a></li>
-          <li>Profile Image: <span id="imgUrl"></span></li>
-      </ul>
-      </section>
+      
 
     </div>
   );
