@@ -19,7 +19,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   const initiateSpotifyAuthorization = () => {
     // Replace these values with your actual client ID, redirect URI, and scope
     const SCOPE = 'user-library-read';
-  
     // Construct the Spotify authorization URL
     const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&response_type=code`;
     // Redirect the user to the Spotify authorization URL
@@ -50,14 +49,16 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       const dataToken = await responseToken.json();
       const accessToken = dataToken.access_token;
       
-      const response = await fetch(TRACKS_URL, {
-        headers: {
-          'Authorization': `Bearer ` + accessToken,
-        },
-      });
-      const data = await response.json();
-      console.log(data.items);
-      setTracks(data.items);
+      if(accessToken !== undefined){
+        const response = await fetch(TRACKS_URL, {
+          headers: {
+            'Authorization': `Bearer ` + accessToken,
+          },
+        });
+        const data = await response.json();
+        console.log(data.items);
+        setTracks(data.items);
+      }
     };
     fetchData();
   }, []);
