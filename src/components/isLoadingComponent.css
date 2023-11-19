@@ -1,0 +1,14 @@
+.isLoading {
+    position: absolute;
+    margin-left: 40px;
+    width: 500px;
+    height: 60px;
+    z-index: 100;
+    border: 1px solid var(--border-color-h1);
+    font-size: var(--font-size-std);
+    font-weight: bold;
+    text-align: center;
+    border-radius: var(--std-border-radius);
+    background-color: var(--background-color-h1);
+    color: var(--text-tracks);
+}

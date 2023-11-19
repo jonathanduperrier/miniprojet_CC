@@ -1,6 +1,8 @@
 // src/MyComponent.tsx
+import { AppSettings } from '../appsettings.js';
 import React, {useState, useEffect} from 'react';
 import './spotifyComponent.css'
+import IsLoadingComponent from './isLoadingComponent';
 
 interface SpotifyComponentProps {
   name: string;
@@ -9,23 +11,18 @@ interface SpotifyComponentProps {
 const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   const [tracks, setTracks] = useState<any[]>([]);
-  const TOKEN_URL = 'https://accounts.spotify.com/api/token';
-  const TRACKS_URL = 'https://api.spotify.com/v1/me/tracks';
-  const CLIENT_ID = 'fade5aabb1904619864c4c7276102d48';
-  const CLIENT_SECRET = 'be6740f27597409287902cdaa775434b';
-  const APP_DEFAULT_URL = 'http://localhost:3000/';
-  const REDIRECT_URI = 'http://localhost:3000/callback';
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   let authorization_code:any = 'code';
 
   const initiateSpotifyAuthorization = () => {
     // Replace these values with your actual client ID, redirect URI, and scope
     const SCOPE = 'user-library-read';
     // Construct the Spotify authorization URL
-    const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&scope=${SCOPE}&response_type=code`;
+    const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${AppSettings.CLIENT_ID}&redirect_uri=${AppSettings.REDIRECT_URI}&scope=${SCOPE}&response_type=code`;
     // Redirect the user to the Spotify authorization URL
     window.location.href = authorizationUrl;
   };
-  if(window.location.href === APP_DEFAULT_URL){
+  if(window.location.href === AppSettings.APP_DEFAULT_URL){
     initiateSpotifyAuthorization();
   } else {
     let queryParameters = new URLSearchParams(window.location.search);
@@ -35,11 +32,11 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   useEffect(() => {
     // Fetch data from Spotify API using the access token
     const fetchData = async () => {
-      const responseToken = await fetch(TOKEN_URL, {
+      const responseToken = await fetch(AppSettings.TOKEN_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+          'Authorization': 'Basic ' + btoa(AppSettings.CLIENT_ID + ':' + AppSettings.CLIENT_SECRET),
         },
         body: new URLSearchParams({
           'grant_type': 'authorization_code',
@@ -51,22 +48,25 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       const accessToken = dataToken.access_token;
       
       if(accessToken !== undefined){
-        const response = await fetch(TRACKS_URL, {
+        const response = await fetch(AppSettings.TRACKS_URL, {
           headers: {
             'Authorization': `Bearer ` + accessToken,
           },
         });
         const data = await response.json();
         setTracks(data.items);
+        setIsLoading(false);
       }
     };
+    setIsLoading(true);
     fetchData();
   }, []);
 
   return (
     <div>
       <h1>Bonjour, {name}!</h1><br />
-      {tracks ? (
+      {isLoading && <IsLoadingComponent loadingMsg="Les titres des musiques sont en cours de chargement"/>}
+      {(tracks && !isLoading) ? (
           <h1>Les {tracks.length.toString()} musiques Spotify ont été chargées</h1>
         ) : null
       }
