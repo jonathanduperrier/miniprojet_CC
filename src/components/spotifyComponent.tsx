@@ -3,6 +3,7 @@ import { AppSettings } from '../appsettings.js';
 import React, {useState, useEffect} from 'react';
 import './spotifyComponent.css'
 import IsLoadingComponent from './isLoadingComponent';
+import DisplayCoverComponent from './displayCoverComponent';
 
 interface SpotifyComponentProps {
   name: string;
@@ -60,8 +61,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
         });
         const data = await response.json();
         setTracks(data.items);
-        console.log("data.items[0]");
-        console.log(data.items[0])
         setFirstTrack(data.items[0]);
         setIsLoading(false);
       }
@@ -91,8 +90,11 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
           )}
         </ul>
         <div id="coverFirstTrack">
-          coverFirstTrack <br />
-          {(firstTract) ? firstTract.track.name : null}
+          {(firstTract) ? 
+            <span>
+              {<DisplayCoverComponent urlImage={firstTract.track.album.images[1].url} width='350' height='350' />}
+            </span>
+          : null}
         </div>
       </div>
     </div>
