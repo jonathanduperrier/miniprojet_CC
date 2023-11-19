@@ -1,5 +1,6 @@
 // src/MyComponent.tsx
 import React, {useState, useEffect} from 'react';
+import './spotifyComponent.css'
 
 interface SpotifyComponentProps {
   name: string;
@@ -56,7 +57,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
           },
         });
         const data = await response.json();
-        console.log(data.items);
         setTracks(data.items);
       }
     };
@@ -65,15 +65,18 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   return (
     <div>
-      <h1>Hello, {name}!</h1>
-      <h1>My Spotify Tracks</h1>
-      <ul>
+      <h1>Bonjour, {name}!</h1><br />
+      {tracks ? (
+          <h1>Les {tracks.length.toString()} musiques Spotify ont été chargées</h1>
+        ) : null
+      }
+      <ul id="listTracts">
         {tracks ? (
           tracks.map((track) => (
             <li key={track.track.id}>{track.track.artists[0].name} - {track.track.name}</li>
           ))
         ) : (
-          <li>No tracks available</li>
+          <li>Aucune piste disponible</li>
         )}
       </ul>
     </div>

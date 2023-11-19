@@ -1,0 +1,31 @@
+:root {
+    --text-color-h1: #c40000;
+    --border-color-h1: #3d00ce;
+    --background-color-h1: #dbd000;
+    --background-color-tracks: #e5ff7f;
+    --text-tracks: #28a300;
+}
+
+h1 {
+    padding: 0 20px 0 20px;
+    margin: 10px 20px 10px 20px;
+    font-size: 60px;
+    color: var(--text-color-h1);
+    border: 1px solid var(--border-color-h1);
+    background-color: var(--background-color-h1);
+    display:inline-block;
+}
+
+#listTracts {
+    list-style-type: none;
+}
+
+#listTracts li {
+    margin: 3px 0 3px 0;
+    padding-left: 10px;
+    border: 1px solid var(--border-color-h1);
+    width: 50em;
+    background-color: var(--background-color-tracks);
+    font-weight: bold;
+    color: var(--text-tracks);
+}

@@ -5,7 +5,7 @@ import SpotifyComponent from './components/spotifyComponent';
 function App() {
   return (
     <div>
-      <SpotifyComponent name="Le Nom" />
+      <SpotifyComponent name="Utilisateur" />
     </div>
   );
 }
