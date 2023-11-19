@@ -22,6 +22,23 @@ h1 {
     border-radius: var(--std-border-radius);
 }
 
+.std-btn {
+    background-color: var(--color-std-btn);
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+    border-radius: var(--std-border-radius);
+    cursor:pointer;
+}
+
+.std-btn:hover {
+    background-color: var(--color-std-btn-hover);
+}
+
+#divTracks {
+    display: flex;
+}
+
 #listTracts {
     list-style-type: none;
 }
@@ -38,15 +55,3 @@ h1 {
     border-radius: var(--std-border-radius);
 }
 
-.std-btn {
-    background-color: var(--color-std-btn);
-    color: white;
-    padding: 15px 25px;
-    text-decoration: none;
-    border-radius: var(--std-border-radius);
-    cursor:pointer;
-}
-
-.std-btn:hover {
-    background-color: var(--color-std-btn-hover);
-}

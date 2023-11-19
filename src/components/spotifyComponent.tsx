@@ -11,6 +11,7 @@ interface SpotifyComponentProps {
 const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   const [tracks, setTracks] = useState<any[]>([]);
+  const [firstTract, setFirstTrack] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   let authorization_code:any = 'code';
 
@@ -59,6 +60,9 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
         });
         const data = await response.json();
         setTracks(data.items);
+        console.log("data.items[0]");
+        console.log(data.items[0])
+        setFirstTrack(data.items[0]);
         setIsLoading(false);
       }
     };
@@ -76,15 +80,21 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
           <h1>Les {tracks.length.toString()} musiques Spotify ont été chargées</h1>
         ) : null
       }
-      <ul id="listTracts">
-        {tracks ? (
-          tracks.map((track) => (
-            <li key={track.track.id}>{track.track.artists[0].name} - {track.track.name}</li>
-          ))
-        ) : (
-          <li>Aucune piste disponible</li>
-        )}
-      </ul>
+      <div id="divTracks">
+        <ul id="listTracts">
+          {tracks ? (
+            tracks.map((track) => (
+              <li key={track.track.id}>{track.track.artists[0].name} - {track.track.name}</li>
+            ))
+          ) : (
+            <li>Aucune piste disponible</li>
+          )}
+        </ul>
+        <div id="coverFirstTrack">
+          coverFirstTrack <br />
+          {(firstTract) ? firstTract.track.name : null}
+        </div>
+      </div>
     </div>
   );
 };
