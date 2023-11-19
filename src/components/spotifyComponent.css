@@ -7,6 +7,8 @@
     --std-border-radius: 5px;
     --font-size-h1: 60px;
     --font-size-std: 24px;
+    --color-std-btn: #199319;
+    --color-std-btn-hover: #223094;
 }
 
 h1 {
@@ -34,4 +36,16 @@ h1 {
     font-weight: bold;
     color: var(--text-tracks);
     border-radius: var(--std-border-radius);
+}
+
+.std-btn {
+    background-color: var(--color-std-btn);
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+    border-radius: var(--std-border-radius);
+}
+
+.std-btn:hover {
+    background-color: var(--color-std-btn-hover);
 }

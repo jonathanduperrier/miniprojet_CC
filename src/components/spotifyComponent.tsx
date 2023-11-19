@@ -29,6 +29,10 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
     authorization_code = queryParameters.get("code");
   }
 
+  function reloadApp() {
+    window.location.href = AppSettings.APP_DEFAULT_URL;
+  }
+
   useEffect(() => {
     // Fetch data from Spotify API using the access token
     const fetchData = async () => {
@@ -64,7 +68,9 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   return (
     <div>
-      <h1>Bonjour, {name}!</h1><br />
+      <h1>Bonjour, {name}!</h1>
+      <a className='std-btn' onClick={reloadApp}>Recharger la liste</a>
+      <br />
       {isLoading && <IsLoadingComponent loadingMsg="Les titres des musiques sont en cours de chargement"/>}
       {(tracks && !isLoading) ? (
           <h1>Les {tracks.length.toString()} musiques Spotify ont été chargées</h1>
