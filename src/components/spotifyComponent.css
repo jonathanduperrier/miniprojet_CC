@@ -44,6 +44,7 @@ h1 {
     padding: 15px 25px;
     text-decoration: none;
     border-radius: var(--std-border-radius);
+    cursor:pointer;
 }
 
 .std-btn:hover {

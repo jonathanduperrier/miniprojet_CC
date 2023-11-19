@@ -79,7 +79,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       <ul id="listTracts">
         {tracks ? (
           tracks.map((track) => (
-            <li key={track.track.id}>{track.track.artists[0].name} - {track.track.name}</li>
+            <li key={track.track.id}>{track.track.artists[0].name} - {track.track.name}</li>
           ))
         ) : (
           <li>Aucune piste disponible</li>
