@@ -35,6 +35,14 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
     window.location.href = AppSettings.APP_DEFAULT_URL;
   }
 
+  function removeLikedTrack() {
+    alert("removeLikedTrack");
+  }
+
+  function addLikedTrack() {
+
+  }
+
   useEffect(() => {
     // Fetch data from Spotify API using the access token
     const fetchData = async () => {
@@ -80,10 +88,17 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
         ) : null
       }
       <div id="divTracks">
-        <ul id="listTracts">
+        <ul id="listTracks">
           {tracks ? (
             tracks.map((track) => (
-              <li key={track.track.id}>{track.track.artists[0].name} - {track.track.name}</li>
+              <li key={track.track.id}>
+                <div className='txtTrack'>
+                  {track.track.artists[0].name} - {track.track.name}
+                </div>
+                <div className='btnTrack'>
+                  <a className='std-btn red btn-list-track' onClick={removeLikedTrack}>Supprimer</a>
+                </div>
+              </li>
             ))
           ) : (
             <li>Aucune piste disponible</li>

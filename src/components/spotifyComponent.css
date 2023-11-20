@@ -25,10 +25,22 @@ h1 {
 .std-btn {
     background-color: var(--color-std-btn);
     color: white;
-    padding: 15px 25px;
+    padding: 10px 15px;
     text-decoration: none;
     border-radius: var(--std-border-radius);
     cursor:pointer;
+    position: relative;
+    top: -3px;
+}
+
+.red {
+    background-color: var(--text-color-h1);
+}
+
+.btn-list-track {
+    font-size: 10px;
+    padding: 5px 10px;
+    margin-top: -3px;
 }
 
 .std-btn:hover {
@@ -39,11 +51,11 @@ h1 {
     display: flex;
 }
 
-#listTracts {
+#listTracks {
     list-style-type: none;
 }
 
-#listTracts li {
+#listTracks li {
     margin: 3px 0 3px 0;
     padding-left: 10px;
     border: 1px solid var(--border-color-h1);
@@ -53,5 +65,15 @@ h1 {
     font-weight: bold;
     color: var(--text-tracks);
     border-radius: var(--std-border-radius);
+    display: flex;
+    align-items: flex-end;
+}
+
+#listTracks li .txtTrack {
+    width: 85%;
+}
+
+#listTracks li .btnTrack {
+    width: 15%;
 }
 
