@@ -4,6 +4,7 @@ import React, {useState, useEffect} from 'react';
 import './spotifyComponent.css'
 import IsLoadingComponent from './isLoadingComponent';
 import DisplayCoverComponent from './displayCoverComponent';
+import DisplayAlbumComponent from './displayAlbumComponent';
 
 interface SpotifyComponentProps {
   name: string;
@@ -37,14 +38,16 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   }
 
   const removeLikedTrack = (id:any) => {
-    let objTracks = tracks;
-    for(let i=0; i < objTracks.length; i++){
-      if(objTracks[i].track.id === id){
-        objTracks[i].track.tr_state = 0;
+    if(window.confirm(`Souhaitez-vous vraiment supprimmer ce titre de la liste de vos morceaux préférés ?`)) {
+      let objTracks = tracks;
+      for(let i=0; i < objTracks.length; i++){
+        if(objTracks[i].track.id === id){
+          objTracks[i].track.tr_state = 0;
+        }
       }
+      setTracks(objTracks);
+      handleForceUpdate();
     }
-    setTracks(objTracks);
-    handleForceUpdate();
   }
 
   const addLikedTrack = (id:any) => {
@@ -141,7 +144,9 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
         <div id="coverFirstTrack">
           {(firstTract) ? 
             <span>
-              {<DisplayCoverComponent urlImage={firstTract.track.album.images[1].url} width='350' height='350' />}
+              {<DisplayCoverComponent urlImage={firstTract.track.album.images[1].url} width='350' height='350' />} <br />
+              
+              {<DisplayAlbumComponent id={firstTract.track.album.id} />}
             </span>
           : null}
         </div>
