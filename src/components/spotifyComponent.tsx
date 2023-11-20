@@ -38,20 +38,24 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   const removeLikedTrack = (id:any) => {
     let objTracks = tracks;
-    console.log("removeLikedTrack : " + id);
-    console.log(objTracks);
     for(let i=0; i < objTracks.length; i++){
       if(objTracks[i].track.id === id){
         objTracks[i].track.tr_state = 0;
       }
     }
-    console.log(objTracks);
     setTracks(objTracks);
     handleForceUpdate();
   }
 
   const addLikedTrack = (id:any) => {
-    alert("addLikedTrack : " + id);
+    let objTracks = tracks;
+    for(let i=0; i < objTracks.length; i++){
+      if(objTracks[i].track.id === id){
+        objTracks[i].track.tr_state = 1;
+      }
+    }
+    setTracks(objTracks);
+    handleForceUpdate();
   }
 
   const addStateTrack = (data:any) => {
@@ -59,11 +63,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       data[i].track.tr_state = 1;
     }
   }
-
-  // const useForceUpdate = () => {
-  //   const [Value, setValue] = useState(0); // integer state
-  //   return () => setValue(Value => Value + 1); // update the state to force render
-  // }
 
   const handleForceUpdate = () => {
     forceUpdate((prev) => !prev);
