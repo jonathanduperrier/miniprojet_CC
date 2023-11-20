@@ -13,8 +13,11 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   const [tracks, setTracks] = useState<any[]>([]);
   const [firstTract, setFirstTrack] = useState<any>();
+  // const [orderInc, setOrderInc] = useState<number>(0);
+  // const [trackIdState, setTrackIdState] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   let authorization_code:any = 'code';
+  var inc = 0;
 
   const initiateSpotifyAuthorization = () => {
     // Replace these values with your actual client ID, redirect URI, and scope
@@ -43,6 +46,12 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
     alert("addLikedTrack : " + id);
   }
 
+  const addStateTrack = (data:any) => {
+    for(let i=0; i < data.length; i++ ){
+      data[i].track.tr_state = 1;
+    }
+  }
+
   useEffect(() => {
     // Fetch data from Spotify API using the access token
     const fetchData = async () => {
@@ -68,7 +77,13 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
           },
         });
         const data = await response.json();
+        console.log("tracks : ");
+        console.log(data.items);
+        addStateTrack(data.items);
+
         setTracks(data.items);
+        //generateTrackStateTab(data.items);
+
         setFirstTrack(data.items[0]);
         setIsLoading(false);
       }
@@ -96,7 +111,13 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
                   {track.track.artists[0].name} - {track.track.name}
                 </div>
                 <div className='btnTrack'>
-                  <a className='std-btn red btn-list-track' onClick={removeLikedTrack.bind(this, track.track.id)}>Supprimer</a>
+                  {
+                    (track.track.tr_state == 1) ? (
+                      <a className='std-btn red btn-list-track' onClick={removeLikedTrack.bind(this, track.track.id)}>Supprimer</a>
+                    ) : (
+                      <a className='std-btn btn-list-track' onClick={addLikedTrack.bind(this, track.track.id)}>Ajouter</a>
+                    )
+                  }
                 </div>
               </li>
             ))
