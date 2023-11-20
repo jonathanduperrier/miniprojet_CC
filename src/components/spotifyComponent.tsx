@@ -14,8 +14,8 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   const [tracks, setTracks] = useState<any[]>([]);
   const [firstTract, setFirstTrack] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [, forceUpdate] = useState<boolean>();
   let authorization_code:any = 'code';
-  var inc = 0;
 
   const initiateSpotifyAuthorization = () => {
     // Replace these values with your actual client ID, redirect URI, and scope
@@ -37,7 +37,17 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   }
 
   const removeLikedTrack = (id:any) => {
-    alert("removeLikedTrack : " + id);
+    let objTracks = tracks;
+    console.log("removeLikedTrack : " + id);
+    console.log(objTracks);
+    for(let i=0; i < objTracks.length; i++){
+      if(objTracks[i].track.id === id){
+        objTracks[i].track.tr_state = 0;
+      }
+    }
+    console.log(objTracks);
+    setTracks(objTracks);
+    handleForceUpdate();
   }
 
   const addLikedTrack = (id:any) => {
@@ -49,6 +59,15 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       data[i].track.tr_state = 1;
     }
   }
+
+  // const useForceUpdate = () => {
+  //   const [Value, setValue] = useState(0); // integer state
+  //   return () => setValue(Value => Value + 1); // update the state to force render
+  // }
+
+  const handleForceUpdate = () => {
+    forceUpdate((prev) => !prev);
+  };
 
   useEffect(() => {
     // Fetch data from Spotify API using the access token
@@ -78,10 +97,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
         console.log("tracks : ");
         console.log(data.items);
         addStateTrack(data.items);
-
         setTracks(data.items);
-        //generateTrackStateTab(data.items);
-
         setFirstTrack(data.items[0]);
         setIsLoading(false);
       }
