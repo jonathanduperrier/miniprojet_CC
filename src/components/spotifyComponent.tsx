@@ -31,16 +31,16 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
     authorization_code = queryParameters.get("code");
   }
 
-  function reloadApp() {
+  const reloadApp = () => {
     window.location.href = AppSettings.APP_DEFAULT_URL;
   }
 
-  function removeLikedTrack() {
-    alert("removeLikedTrack");
+  const removeLikedTrack = (id:any) => {
+    alert("removeLikedTrack : " + id);
   }
 
-  function addLikedTrack() {
-
+  const addLikedTrack = (id:any) => {
+    alert("addLikedTrack : " + id);
   }
 
   useEffect(() => {
@@ -96,7 +96,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
                   {track.track.artists[0].name} - {track.track.name}
                 </div>
                 <div className='btnTrack'>
-                  <a className='std-btn red btn-list-track' onClick={removeLikedTrack}>Supprimer</a>
+                  <a className='std-btn red btn-list-track' onClick={removeLikedTrack.bind(this, track.track.id)}>Supprimer</a>
                 </div>
               </li>
             ))
