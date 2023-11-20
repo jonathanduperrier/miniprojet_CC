@@ -13,8 +13,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   const [tracks, setTracks] = useState<any[]>([]);
   const [firstTract, setFirstTrack] = useState<any>();
-  // const [orderInc, setOrderInc] = useState<number>(0);
-  // const [trackIdState, setTrackIdState] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   let authorization_code:any = 'code';
   var inc = 0;
