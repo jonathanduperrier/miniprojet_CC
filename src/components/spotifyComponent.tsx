@@ -21,7 +21,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   const initiateSpotifyAuthorization = () => {
     // Replace these values with your actual client ID, redirect URI, and scope
-    const SCOPE = 'user-library-read';
+    const SCOPE = 'user-library-read, user-library-modify';
     // Construct the Spotify authorization URL
     const authorizationUrl = `https://accounts.spotify.com/authorize?client_id=${AppSettings.CLIENT_ID}&redirect_uri=${AppSettings.REDIRECT_URI}&scope=${SCOPE}&response_type=code`;
     // Redirect the user to the Spotify authorization URL
@@ -40,6 +40,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
 
   const removeLikedTrack = (id:any) => {
     if(window.confirm(`Souhaitez-vous vraiment supprimmer ce titre de la liste de vos morceaux préférés ?`)) {
+      deleteTrackLib(id.toString());
       let objTracks = tracks;
       for(let i=0; i < objTracks.length; i++){
         if(objTracks[i].track.id === id){
@@ -71,6 +72,22 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   const handleForceUpdate = () => {
     forceUpdate((prev) => !prev);
   };
+
+  // DELETE request using fetch with async/await
+  const deleteTrackLib = async (id:string) => {
+    try{
+      await fetch(AppSettings.TRACKS_URL, 
+        {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ` + token,
+          },
+          body: JSON.stringify({"ids" : [id]})
+        }).then(() => alert("Le son à été supprimé avec succès !"));
+    } catch(error) {
+      alert("Erreur de suppression " + error);
+    }
+  }
 
   useEffect(() => {
     // Fetch data from Spotify API using the access token
@@ -147,7 +164,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
           {(firstTract) ? 
             <React.Fragment>
               {<DisplayCoverComponent urlImage={firstTract.track.album.images[1].url} width='350' height='350' />}
-              
               {<DisplayAlbumComponent id={firstTract.track.album.id} token={token} />}
             </React.Fragment>
           : null}

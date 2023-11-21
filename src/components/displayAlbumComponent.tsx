@@ -22,8 +22,6 @@ const DisplayAlbumComponent: React.FC<DisplayAlbumComponentProps> = ({ id, token
             });
             const data2 = await response2.json();
             setListSongs(data2.items);
-            console.log("fetchData2");
-            console.log(data2.items);
         }
         if(token !== ''){
             fetchData2();
