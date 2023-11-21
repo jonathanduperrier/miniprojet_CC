@@ -53,6 +53,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   }
 
   const addLikedTrack = (id:any) => {
+    addTrackLib(id.toString());
     let objTracks = tracks;
     for(let i=0; i < objTracks.length; i++){
       if(objTracks[i].track.id === id){
@@ -85,7 +86,22 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
           body: JSON.stringify({"ids" : [id]})
         }).then(() => alert("Le son à été supprimé avec succès !"));
     } catch(error) {
-      alert("Erreur de suppression " + error);
+      alert("Erreur de suppression : " + error);
+    }
+  }
+
+  const addTrackLib = async (id:string) => {
+    try{
+      await fetch(AppSettings.TRACKS_URL,
+        {
+          method: 'PUT',
+          headers: {
+            'Authorization': `Bearer ` + token,
+          },
+          body: JSON.stringify({"ids" : [id]})
+      }).then(() => alert("Le son à été ajouté avec succès dans la librairie !"));
+    } catch(error){
+      alert("Erreur dans l'ajout de la piste : " + error);
     }
   }
 
@@ -115,8 +131,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
           },
         });
         const data = await response.json();
-        console.log("tracks : ");
-        console.log(data.items);
         addStateTrack(data.items);
         setTracks(data.items);
         setFirstTrack(data.items[0]);
