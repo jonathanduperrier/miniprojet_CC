@@ -15,6 +15,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
   const [tracks, setTracks] = useState<any[]>([]);
   const [firstTract, setFirstTrack] = useState<any>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [token, setToken] = useState<string>('');
   const [, forceUpdate] = useState<boolean>();
   let authorization_code:any = 'code';
 
@@ -89,7 +90,8 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       const dataToken = await responseToken.json();
       const accessToken = dataToken.access_token;
       
-      if(accessToken !== undefined){
+      if(accessToken){
+        setToken(accessToken);
         const response = await fetch(AppSettings.TRACKS_URL, {
           headers: {
             'Authorization': `Bearer ` + accessToken,
@@ -143,11 +145,11 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
         </ul>
         <div id="coverFirstTrack">
           {(firstTract) ? 
-            <span>
-              {<DisplayCoverComponent urlImage={firstTract.track.album.images[1].url} width='350' height='350' />} <br />
+            <React.Fragment>
+              {<DisplayCoverComponent urlImage={firstTract.track.album.images[1].url} width='350' height='350' />}
               
-              {<DisplayAlbumComponent id={firstTract.track.album.id} />}
-            </span>
+              {<DisplayAlbumComponent id={firstTract.track.album.id} token={token} />}
+            </React.Fragment>
           : null}
         </div>
       </div>

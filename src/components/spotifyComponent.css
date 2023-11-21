@@ -77,3 +77,14 @@ h1 {
     width: 15%;
 }
 
+@media (min-width: 1365px) {
+    #coverFirstTrack {
+        display: flex;
+    }
+}
+
+@media (max-width: 1364px) {
+    #coverFirstTrack {
+        display: block;
+    }
+}
