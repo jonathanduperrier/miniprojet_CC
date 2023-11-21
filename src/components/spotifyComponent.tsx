@@ -64,16 +64,6 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
     handleForceUpdate();
   }
 
-  const addStateTrack = (data:any) => {
-    for(let i=0; i < data.length; i++ ){
-      data[i].track.tr_state = 1;
-    }
-  }
-
-  const handleForceUpdate = () => {
-    forceUpdate((prev) => !prev);
-  };
-
   // DELETE request using fetch with async/await
   const deleteTrackLib = async (id:string) => {
     try{
@@ -90,6 +80,7 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
     }
   }
 
+  // PUT request using fetch with async/await
   const addTrackLib = async (id:string) => {
     try{
       await fetch(AppSettings.TRACKS_URL,
@@ -104,6 +95,16 @@ const SpotifyComponent: React.FC<SpotifyComponentProps> = ({ name }) => {
       alert("Erreur dans l'ajout de la piste : " + error);
     }
   }
+
+  const addStateTrack = (data:any) => {
+    for(let i=0; i < data.length; i++ ){
+      data[i].track.tr_state = 1;
+    }
+  }
+
+  const handleForceUpdate = () => {
+    forceUpdate((prev) => !prev);
+  };
 
   useEffect(() => {
     // Fetch data from Spotify API using the access token
